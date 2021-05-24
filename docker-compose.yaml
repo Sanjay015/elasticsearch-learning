@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  # esapp:
+  #   build: .
+  #   image: esapp
+  #   container_name: esapp
+  #   # command: python manage.py runserver 0.0.0.0:8000
+  #   volumes:
+  #     - .:/home/app/esapp
+  #   ports:
+  #     - 9200:9200
+  #     - 9600:9600
+  #   env_file:
+  #     - ./.env
+  elastisearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+    container_name: esnode
+    ports:
+      - 9200:9200
+      - 9600:9600
+    environment:
+      - discovery.type=single-node
+    depends_on:
+      - kibana
+    networks:
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.1
+    container_name: kibananode
+    ports:
+      - 5601:5601
+    networks:
+      - elastic
+    environment:
+      # - ELASTICSEARCH_URL=http://esnode:9200
+      - ELASTICSEARCH_HOSTS=http://esnode:9200
+
+networks:
+  elastic:
+    driver: bridge
