@@ -1,0 +1,19 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+    apploger:
+        format: "%(asctime)s - %(levelname)s - %(process)s -%(thread)s - %(message)s"
+
+handlers:
+    console:
+        level: DEBUG
+        class: logging.StreamHandler
+        formatter: apploger
+
+loggers:
+    app:
+        handlers:
+            - console
+        level: DEBUG
+        propagate: True

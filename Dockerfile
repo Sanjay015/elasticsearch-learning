@@ -13,11 +13,11 @@ WORKDIR $DockerHOME
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Copy conda environment file:
+COPY env.yaml $DockerHOME/env.yaml
+
 # Update conda:
 RUN conda update -n base -c defaults conda
-
-# Copy conda environment file:
-COPY . $DockerHOME/env.yaml
 
 # Create the environment:
 RUN conda env create -f env.yaml
